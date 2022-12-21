@@ -37,7 +37,7 @@ final class AppDetailHeaderViewController: UIViewController {
         super.viewDidLoad()
         self.fillData()
     }
-    
+
     // MARK: - Private
     private func fillData() {
         self.downloadImage()
