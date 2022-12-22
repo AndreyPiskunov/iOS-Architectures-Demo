@@ -26,11 +26,21 @@ class SearchSongsPresenter {
     // MARK: - Private Properties
     
     weak var viewInput: (UIViewController & SearchSongViewInput)?
-    private let searchService = ITunesSearchService()
+    
+    private let interactor: SearchSongInteractorInput
+    private let router: SearchRouterInput
+    
+    // MARK: - Construction
+    
+    init(interactor: SearchSongInteractorInput, router: SearchRouterInput) {
+        self.interactor = interactor
+        self.router = router
+    }
+    
     // MARK: - Private functions
     
     private func requestSongs(with query: String) {
-        self.searchService.getSongs(forQuery: query) { [weak self] result in
+        self.interactor.requestSongs(with: query) { [weak self] result in
             guard let self = self else {
                 return
             }
@@ -56,6 +66,7 @@ extension SearchSongsPresenter: SearchSongViewOutput {
         requestSongs(with: query)
     }
     
-    func viewDidSelectSong(_ app: ITunesSong) {
+    func viewDidSelectSong(_ song: ITunesSong) {
+        self.router.openDetails(for: song)
     }
 }
